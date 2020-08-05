@@ -33,8 +33,10 @@ public class PersonController {
 	@RequestMapping(path = "/personByLastName", method = RequestMethod.GET)
 	public List<Person> findByLastName(@RequestParam(name = "lastName", required = true)@NotNull
 			@NotBlank
-			@Size(max = 10)String lastName){
-		List<Person> hardCoded= new ArrayList<>();
+			@Size(max = 10)String lastName) throws MyException{
+		try{
+			List<Person> hardCoded= new ArrayList<>();
+		
 		Person person= new Person();
 		person.setAge(20);
 		person.setCreditCardNumber("4111111111111111");
@@ -44,7 +46,15 @@ public class PersonController {
 		person.setLastName(lastName);
 		person.setId(1);
 		hardCoded.add(person);
-		return hardCoded;
+		if(person.getFirstName().equals("Somefirstname")) {
+		 throw new MyException();
+		}
+		
+		 return hardCoded;
+		}catch(Exception e) {
+		throw new MyException();
+		}
+		
 		
 	}
 }

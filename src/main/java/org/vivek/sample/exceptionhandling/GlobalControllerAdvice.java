@@ -102,6 +102,18 @@ public class GlobalControllerAdvice //extends ResponseEntityExceptionHandler
          return new ResponseEntity(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
+    
+    @ExceptionHandler(MyException.class) 
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorMessage> handleMyException(MissingServletRequestParameterException ex
+    		) {
+    	
+       List<String> errors = new ArrayList<>( );
+        String error=ex.getParameterName()+", "+ex.getMessage();
+       errors.add(error);
+        ErrorMessage errorMessage = new ErrorMessage(errors);
+         return new ResponseEntity(errorMessage, HttpStatus.BAD_REQUEST);
+    }
    
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class) 
     @ResponseStatus(code = HttpStatus.UNSUPPORTED_MEDIA_TYPE)
